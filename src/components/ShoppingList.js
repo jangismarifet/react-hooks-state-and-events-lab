@@ -3,18 +3,16 @@ import Item from "./Item";
 
 function ShoppingList({ items }) {
   const [selectedCategory, setSelectedCategory] = useState("All")
-  const [categorizedItems, setCategorizedItems] = useState(items);
+  // const [categorizedItems, setCategorizedItems] = useState(items);
   function handleSelect(event) {
     setSelectedCategory(event.target.value);
-    if (selectedCategory !== "All") {
-      setCategorizedItems(items.filter((item) => item.category === selectedCategory))
-    }
-    else {
-      setCategorizedItems(items)
-    }
-    
   }
-  console.log(selectedCategory);
+  const itemsToDisplay = items.filter((item) => {
+    if (selectedCategory === "All") return true;
+    return item.category === selectedCategory
+  })
+
+
   return (
     <div className="ShoppingList">
       <div className="Filter">
@@ -26,7 +24,7 @@ function ShoppingList({ items }) {
         </select>
       </div>
       <ul className="Items">
-        {categorizedItems.map((item) => (
+        {itemsToDisplay.map((item) => (
           <Item key={item.id} name={item.name} category={item.category} />
         ))}
       </ul>
